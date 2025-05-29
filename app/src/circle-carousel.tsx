@@ -18,7 +18,7 @@ interface Speaker {
   bio: string;
   resources: {
     title: string;
-    type: "blog" | "video" | "podcast" | "paper" | "other";
+    type: "blog" | "video" | "podcast" | "paper" | "book" | "other";
     url: string;
     description: string;
   }[];
