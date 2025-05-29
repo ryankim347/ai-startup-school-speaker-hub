@@ -308,6 +308,7 @@ export default function Home() {
   const [showCarousel, setShowCarousel] = useState(true);
   const [clickedImageSrc, setClickedImageSrc] = useState<string>("");
   const [showZoomingImage, setShowZoomingImage] = useState(false);
+  const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false);
 
   const handleCarouselImageClick = (
     speaker: Speaker,
@@ -328,19 +329,19 @@ export default function Home() {
     // Start hiding carousel immediately
     setTimeout(() => {
       setShowCarousel(false);
-    }, 200);
+    }, 100);
 
     // Set the selected speaker after zoom starts
     setTimeout(() => {
       setSelectedSpeaker(speaker);
-    }, 500);
+    }, 250);
 
     // Complete the zoom animation
     setTimeout(() => {
       setIsZooming(false);
       setZoomFromPosition(null);
       setShowZoomingImage(false);
-    }, 1200);
+    }, 600);
   };
 
   const handleBackToCarousel = () => {
@@ -367,18 +368,20 @@ export default function Home() {
       {/* Carousel View */}
       {showCarousel && (
         <div
-          className={`transition-opacity duration-300 ${
+          className={`transition-opacity duration-150 ${
             isZooming ? "opacity-0" : "opacity-100"
           }`}
         >
           <CircularCarousel
             images={carouselImages}
-            title="YC Startup School"
+            title="YC AI Startup School"
             subtitle="CLICK TO EXPLORE SPEAKERS"
             radius={320}
             imageSize={100}
             speakers={speakers}
             onImageClick={handleCarouselImageClick}
+            hasInitialAnimationRun={hasInitialAnimationRun}
+            onInitialAnimationComplete={() => setHasInitialAnimationRun(true)}
           />
         </div>
       )}
@@ -388,7 +391,7 @@ export default function Home() {
         <div
           className={`min-h-screen bg-gray-100 ${
             selectedSpeaker ? "opacity-100" : "opacity-0"
-          } transition-opacity duration-500`}
+          } transition-opacity duration-250`}
         >
           {/* Back Button */}
           <div className="absolute top-6 left-6 z-20">
@@ -417,7 +420,7 @@ export default function Home() {
               {/* Large Speaker Image */}
               <div className="flex items-center justify-center pt-20 pb-8">
                 <div
-                  className={`relative w-80 h-80 rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 ${
+                  className={`relative w-80 h-80 rounded-2xl overflow-hidden shadow-2xl transition-all duration-350 ${
                     selectedSpeaker
                       ? "scale-100 opacity-100"
                       : "scale-75 opacity-0"
@@ -434,7 +437,7 @@ export default function Home() {
 
               {/* Speaker Information */}
               <div
-                className={`max-w-4xl mx-auto px-6 pb-8 transition-all duration-700 delay-300 ${
+                className={`max-w-4xl mx-auto px-6 pb-8 transition-all duration-350 delay-150 ${
                   selectedSpeaker
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0"
@@ -474,7 +477,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className="block bg-white rounded-xl p-6 hover:bg-gray-50 transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1 shadow-sm"
                         style={{
-                          animationDelay: `${600 + index * 100}ms`,
+                          animationDelay: `${300 + index * 50}ms`,
                           animation: selectedSpeaker
                             ? "slideInUp 0.6s ease-out forwards"
                             : "none",
