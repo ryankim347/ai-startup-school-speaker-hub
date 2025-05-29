@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import CircularCarousel from './src/circle-carousel';
 
 interface Resource {
   title: string;
@@ -243,12 +244,46 @@ const speakers: Speaker[] = [
   }
 ];
 
+const carouselImages = [
+  {
+    src: "https://d2xtzufx9mvgbo.cloudfront.net/events/new%20sam%20altman-e4d9da665aedfd8c.png",
+    alt: "Image 1",
+  },
+  { src: "/images/image2.jpg", alt: "Image 2" },
+  { src: "/images/image3.jpg", alt: "Image 3" },
+  { src: "/images/image4.jpg", alt: "Image 4" },
+  { src: "/images/image5.jpg", alt: "Image 5" },
+  { src: "/images/image6.jpg", alt: "Image 6" },
+  { src: "/images/image7.jpg", alt: "Image 7" },
+  { src: "/images/image8.jpg", alt: "Image 8" },
+  { src: "/images/image9.jpg", alt: "Image 9" },
+  { src: "/images/image10.jpg", alt: "Image 10" },
+  { src: "/images/image11.jpg", alt: "Image 11" },
+  { src: "/images/image12.jpg", alt: "Image 12" },
+  { src: "/images/image13.jpg", alt: "Image 13" },
+  { src: "/images/image14.jpg", alt: "Image 14" },
+  { src: "/images/image15.jpg", alt: "Image 15" },
+  { src: "/images/image16.jpg", alt: "Image 16" },
+  { src: "/images/image17.jpg", alt: "Image 17" },
+  { src: "/images/image18.jpg", alt: "Image 18" },
+  { src: "/images/image19.jpg", alt: "Image 19" },
+  { src: "/images/image20.jpg", alt: "Image 20" },
+];
+
 export default function Home() {
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
 
   return (
     <main className="min-h-screen bg-gray-100">
       {/* Header */}
+      <CircularCarousel
+        images={carouselImages}
+        title="The future is built on Artificial Intelligence."
+        subtitle="SCROLL TO EXPLORE"
+        radius={320}
+        imageSize={100}
+      />
+      ;
       <header className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -256,17 +291,22 @@ export default function Home() {
           </h1>
         </div>
       </header>
-
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Speakers Grid */}
-          <div className={`col-span-1 ${selectedSpeaker ? 'md:col-span-1' : 'md:col-span-2'}`}>
+          <div
+            className={`col-span-1 ${
+              selectedSpeaker ? "md:col-span-1" : "md:col-span-2"
+            }`}
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {speakers.map((speaker) => (
                 <div
                   key={speaker.id}
                   className={`bg-white rounded-lg shadow-md p-6 cursor-pointer transform transition-all duration-200 hover:scale-105 ${
-                    selectedSpeaker?.id === speaker.id ? 'ring-2 ring-blue-500' : ''
+                    selectedSpeaker?.id === speaker.id
+                      ? "ring-2 ring-blue-500"
+                      : ""
                   }`}
                   onClick={() => setSelectedSpeaker(speaker)}
                 >
@@ -295,7 +335,9 @@ export default function Home() {
             <div className="col-span-1 md:col-span-1">
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold mb-2">{selectedSpeaker.name}</h2>
+                  <h2 className="text-2xl font-bold mb-2">
+                    {selectedSpeaker.name}
+                  </h2>
                   <p className="text-gray-600">{selectedSpeaker.bio}</p>
                 </div>
                 <div>
@@ -311,8 +353,12 @@ export default function Home() {
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <h4 className="font-medium text-blue-600">{resource.title}</h4>
-                            <p className="text-sm text-gray-600">{resource.description}</p>
+                            <h4 className="font-medium text-blue-600">
+                              {resource.title}
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              {resource.description}
+                            </p>
                           </div>
                           <span className="text-xs font-medium px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
                             {resource.type}
