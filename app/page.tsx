@@ -401,31 +401,31 @@ const speakers: Speaker[] = [
     role: 'CEO & Co-Founder',
     company: 'Windsurf',
     image: '/speakers/placeholder.svg',
-    bio: 'Varun Mohan leads Windsurf (formerly Codeium), creators of an AI-native IDE used by over 1 million developers to generate 53% of committed enterprise code[6][7].',
+    bio: 'Varun Mohan leads Windsurf (formerly Codeium), creators of an AI-native IDE used by over 1 million developers to generate 53% of committed enterprise code.',
     resources: [
       {
         title: "Building a Magical AI Code Editor",
         type: 'video',
         url: 'https://www.youtube.com/watch?v=5Z0RCxDZdrE',
-        description: 'Technical deep dive into Windsurf\'s architecture and pivot strategy[6]'
+        description: 'Technical deep dive into Windsurf\'s architecture and pivot strategy'
       },
       {
         title: "The Pivot That Saved Windsurf",
         type: 'blog',
         url: 'https://www.lennysnewsletter.com/p/the-untold-story-of-windsurf-varun-mohan',
-        description: 'Detailed account of strategic pivot from GPU virtualization to AI-powered IDE[8][9]'
+        description: 'Detailed account of strategic pivot from GPU virtualization to AI-powered IDE'
       },
       {
         title: "AI Code Generation Transforming Industries",
         type: 'video',
         url: 'https://www.youtube.com/watch?v=hl5FqjTrJ5E',
-        description: 'Discussion on AI-driven workflow optimization with Kleiner Perkins[9]'
+        description: 'Discussion on AI-driven workflow optimization with Kleiner Perkins'
       },
       {
         title: "From Autonomous Vehicles to AI Code",
         type: 'blog',
         url: 'https://alejandrocremades.com/varun-mohan/',
-        description: 'Founder journey and enterprise adoption strategies[7]'
+        description: 'Founder journey and enterprise adoption strategies'
       }
     ]
   },
@@ -435,31 +435,31 @@ const speakers: Speaker[] = [
     role: 'CEO & Co-Founder',
     company: 'Anysphere',
     image: '/speakers/placeholder.svg',
-    bio: 'Michael Truell created Cursor, the fastest-growing AI code editor achieving $300M ARR in 2 years, pioneering "programming after code" paradigms[2][4].',
+    bio: 'Michael Truell created Cursor, the fastest-growing AI code editor achieving $300M ARR in 2 years, pioneering "programming after code" paradigms.',
     resources: [
       {
         title: "Future of AI and Software Development",
         type: 'video',
         url: 'https://www.educationnext.in/posts/michael-truell-on-the-future-of-ai-and-software-development-with-cursor',
-        description: 'Vision for natural language programming and hybrid AI systems[2]'
+        description: 'Vision for natural language programming and hybrid AI systems'
       },
       {
         title: "The $300M ARR AI Editor Phenomenon",
         type: 'blog',
         url: 'https://www.lennysnewsletter.com/p/the-rise-of-cursor-michael-truell',
-        description: 'Growth case study and custom model development insights[4]'
+        description: 'Growth case study and custom model development insights'
       },
       {
         title: "Programming in the Post-Code Era",
         type: 'video',
         url: 'https://followin.io/en/feed/18142509',
-        description: 'Lex Fridman podcast on pseudocode programming future[3]'
+        description: 'Lex Fridman podcast on pseudocode programming future'
       },
       {
         title: "Cursor Technical Architecture",
         type: 'blog',
         url: 'https://mntruell.com',
-        description: 'Founder\'s perspective on AI-driven coding automation[1]'
+        description: 'Founder\'s perspective on AI-driven coding automation'
       }
     ]
   }
@@ -521,12 +521,12 @@ const carouselImages = [
     speakerId: "aravind-srinivas",
   },
   {
-    src: "/speakers/varun-mohan.jpg",
+    src: "https://i.imgur.com/4qsK1Ib.png",
     alt: "Varun Mohan",
     speakerId: "varun-mohan",
   },
   {
-    src: "/speakers/michael-truell.jpg",
+    src: "https://i.imgur.com/CymfSll.png",
     alt: "Michael Truell",
     speakerId: "michael-truell",
   }
@@ -535,13 +535,8 @@ const carouselImages = [
 export default function Home() {
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
   const [isZooming, setIsZooming] = useState(false);
-  const [zoomFromPosition, setZoomFromPosition] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
   const [showCarousel, setShowCarousel] = useState(true);
   const [clickedImageSrc, setClickedImageSrc] = useState<string>("");
-  const [showZoomingImage, setShowZoomingImage] = useState(false);
   const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false);
 
   const handleCarouselImageClick = (
@@ -556,9 +551,7 @@ export default function Home() {
       setClickedImageSrc(carouselImage.src);
     }
 
-    setZoomFromPosition(imagePosition);
     setIsZooming(true);
-    setShowZoomingImage(true);
 
     // Start hiding carousel immediately
     setTimeout(() => {
@@ -573,8 +566,6 @@ export default function Home() {
     // Complete the zoom animation
     setTimeout(() => {
       setIsZooming(false);
-      setZoomFromPosition(null);
-      setShowZoomingImage(false);
     }, 600);
   };
 
@@ -582,7 +573,6 @@ export default function Home() {
     setSelectedSpeaker(null);
     setShowCarousel(true);
     setClickedImageSrc("");
-    setShowZoomingImage(false);
   };
 
   return (

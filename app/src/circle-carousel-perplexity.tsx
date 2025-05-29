@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, CSSProperties } from "react";
+import Image from "next/image";
 
 interface CarouselItem {
   id: string;
@@ -111,9 +112,11 @@ const CircularCarouselPerplexity: React.FC<CircularCarouselProps> = ({
             tabIndex={0}
             aria-label={item.alt}
           >
-            <img
+            <Image
               src={item.src}
               alt={item.alt}
+              width={responsiveItemSize}
+              height={responsiveItemSize}
               style={{
                 width: "100%",
                 height: "100%",
@@ -122,7 +125,6 @@ const CircularCarouselPerplexity: React.FC<CircularCarouselProps> = ({
                 display: "block",
                 transition: "opacity 0.3s",
               }}
-              draggable={false}
             />
           </div>
         );
