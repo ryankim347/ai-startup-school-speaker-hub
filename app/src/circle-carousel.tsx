@@ -22,6 +22,7 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
   imageSize = 120,
 }) => {
   const [rotation, setRotation] = useState(0);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +33,10 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleImageError = (index: number) => {
+    setImageErrors((prev) => new Set(prev).add(index));
+  };
 
   const getImageStyle = (index: number, total: number) => {
     const angle = (360 / total) * index;
@@ -86,14 +91,26 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
             style={getImageStyle(index, images.length)}
             className="hover:scale-110 transition-transform duration-300 cursor-pointer"
           >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              width={imageSize}
-              height={imageSize}
-              className="object-cover rounded-lg"
-              style={{ width: "100%", height: "100%" }}
-            />
+            {imageErrors.has(index) ? (
+              // Fallback div when image fails to load
+              <div
+                className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center"
+                style={{ width: `${imageSize}px`, height: `${imageSize}px` }}
+              >
+                <span className="text-gray-500 text-xs">AI</span>
+              </div>
+            ) : (
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={imageSize}
+                height={imageSize}
+                className="object-cover rounded-lg"
+                style={{ width: "100%", height: "100%" }}
+                onError={() => handleImageError(index)}
+                priority={index < 5} // Prioritize first 5 images for faster loading
+              />
+            )}
           </div>
         ))}
       </div>
