@@ -540,8 +540,7 @@ export default function Home() {
   const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false);
 
   const handleCarouselImageClick = (
-    speaker: Speaker,
-    imagePosition: { x: number; y: number }
+    speaker: Speaker
   ) => {
     // Find the corresponding carousel image
     const carouselImage = carouselImages.find(
@@ -690,7 +689,7 @@ export default function Home() {
 
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                    {selectedSpeaker.name.split(' ')[0]}'s Work
+                    {selectedSpeaker.name.split(' ')[0]}&apos;s Work
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {selectedSpeaker.resources.map((resource, index) => (

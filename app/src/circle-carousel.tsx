@@ -31,10 +31,7 @@ interface CircularCarouselProps {
   radius?: number;
   imageSize?: number;
   speakers?: Speaker[];
-  onImageClick?: (
-    speaker: Speaker,
-    imagePosition: { x: number; y: number }
-  ) => void;
+  onImageClick?: (speaker: Speaker) => void;
   hasInitialAnimationRun?: boolean;
   onInitialAnimationComplete?: () => void;
 }
@@ -84,21 +81,14 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
     setImageErrors((prev) => new Set(prev).add(index));
   };
 
-  const handleImageClick = (index: number, event: React.MouseEvent) => {
+  const handleImageClick = (index: number) => {
     if (!onImageClick || !speakers.length) return;
 
     const image = images[index];
     const speaker = speakers.find((s) => s.id === image.speakerId);
 
     if (speaker) {
-      // Get the absolute position of the clicked image
-      const rect = (event.target as HTMLElement).getBoundingClientRect();
-      const imagePosition = {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      };
-
-      onImageClick(speaker, imagePosition);
+      onImageClick(speaker);
     }
   };
 
@@ -157,7 +147,7 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
             key={index}
             style={getImageStyle(index, images.length)}
             className="hover:scale-110 transition-transform duration-300 cursor-pointer"
-            onClick={(e) => handleImageClick(index, e)}
+            onClick={() => handleImageClick(index)}
           >
             {imageErrors.has(index) ? (
               // Fallback div when image fails to load
