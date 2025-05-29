@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import CircularCarousel from './src/circle-carousel';
+import CircleCarousel from './src/circle-carousel-openai';
 
 interface Resource {
   title: string;
@@ -261,6 +262,26 @@ const carouselImages = [
   { src: "https://d2xtzufx9mvgbo.cloudfront.net/events/Aravind%20Srinivas-6a12179cf7ea821b.png", alt: "Image 11" },
 ];
 
+const items = [
+  {
+    id: "1",
+    content: (
+      <Image
+        src={carouselImages[0].src}
+        alt={carouselImages[0].alt}
+        width={100}
+        height={100}
+        className="object-cover rounded-lg"
+        style={{ width: "100%", height: "100%" }}
+      />
+    ),
+  },
+  { id: "2", content: <Image src={carouselImages[1].src} alt={carouselImages[1].alt} width={100} height={100} className="object-cover rounded-lg" style={{ width: "100%", height: "100%" }} /> },
+  { id: "3", content: <Image src={carouselImages[2].src} alt={carouselImages[2].alt} width={100} height={100} className="object-cover rounded-lg" style={{ width: "100%", height: "100%" }} /> },
+  { id: "4", content: <Image src={carouselImages[3].src} alt={carouselImages[3].alt} width={100} height={100} className="object-cover rounded-lg" style={{ width: "100%", height: "100%" }} /> },
+  { id: "5", content: <Image src={carouselImages[4].src} alt={carouselImages[4].alt} width={100} height={100} className="object-cover rounded-lg" style={{ width: "100%", height: "100%" }} /> },
+];
+
 export default function Home() {
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
 
@@ -269,12 +290,12 @@ export default function Home() {
       {/* Header */}
       <CircularCarousel
         images={carouselImages}
-        title="The future is built on Artificial Intelligence."
-        subtitle="SCROLL TO EXPLORE"
+        title="YC Startup School"
+        subtitle="CLICK TO EXPLORE SPEAKERS"
         radius={320}
         imageSize={100}
       />
-      ;
+      {/* <CircleCarousel items={items} /> */}
       <header className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900">
