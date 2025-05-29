@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 
 interface CarouselImage {
@@ -21,18 +23,7 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
   radius = 300,
   imageSize = 120,
 }) => {
-  const [rotation, setRotation] = useState(0);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setRotation(scrollY * 0.1);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleImageError = (index: number) => {
     setImageErrors((prev) => new Set(prev).add(index));
@@ -44,21 +35,17 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
     const x = Math.cos(radian) * radius;
     const y = Math.sin(radian) * radius;
 
-    // Add some randomness to rotation for a more natural look
-    const randomRotation = (Math.random() - 0.5) * 30;
-
     return {
       position: "absolute" as const,
       left: "50%",
       top: "50%",
       transform: `
         translate(-50%, -50%) 
-        translate(${x}px, ${y}px) 
-        rotate(${angle + rotation + randomRotation}deg)
+        translate(${x}px, ${y}px)
+        rotate(${angle + 90}deg)
       `,
       width: `${imageSize}px`,
       height: `${imageSize}px`,
-      transition: "transform 0.1s ease-out",
       borderRadius: "8px",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     };
@@ -113,13 +100,6 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
             )}
           </div>
         ))}
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-pulse"></div>
-        </div>
       </div>
     </div>
   );
