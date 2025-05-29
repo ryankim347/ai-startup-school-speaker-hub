@@ -1,11 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 
 interface CarouselImage {
   src: string;
   alt: string;
+  speakerId?: string;
+}
+
+interface Speaker {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  image: string;
+  bio: string;
+  resources: {
+    title: string;
+    type: "blog" | "video" | "podcast" | "paper" | "other";
+    url: string;
+    description: string;
+  }[];
 }
 
 interface CircularCarouselProps {
@@ -14,6 +30,11 @@ interface CircularCarouselProps {
   subtitle?: string;
   radius?: number;
   imageSize?: number;
+  speakers?: Speaker[];
+  onImageClick?: (
+    speaker: Speaker,
+    imagePosition: { x: number; y: number }
+  ) => void;
 }
 
 const CircularCarousel: React.FC<CircularCarouselProps> = ({
@@ -22,11 +43,32 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
   subtitle = "CLICK TO EXPLORE",
   radius = 300,
   imageSize = 120,
+  speakers = [],
+  onImageClick,
 }) => {
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleImageError = (index: number) => {
     setImageErrors((prev) => new Set(prev).add(index));
+  };
+
+  const handleImageClick = (index: number, event: React.MouseEvent) => {
+    if (!onImageClick || !speakers.length) return;
+
+    const image = images[index];
+    const speaker = speakers.find((s) => s.id === image.speakerId);
+
+    if (speaker) {
+      // Get the absolute position of the clicked image
+      const rect = (event.target as HTMLElement).getBoundingClientRect();
+      const imagePosition = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
+
+      onImageClick(speaker, imagePosition);
+    }
   };
 
   const getImageStyle = (index: number, total: number) => {
@@ -52,7 +94,10 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-gray-50 flex items-center justify-center overflow-hidden">
+    <div
+      className="relative w-full min-h-screen bg-gray-50 flex items-center justify-center overflow-hidden"
+      ref={containerRef}
+    >
       {/* Central Content */}
       <div className="text-center z-10 max-w-md px-6">
         <h1 className="text-2xl md:text-4xl font-light text-gray-800 mb-4 leading-relaxed">
@@ -77,6 +122,7 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
             key={index}
             style={getImageStyle(index, images.length)}
             className="hover:scale-110 transition-transform duration-300 cursor-pointer"
+            onClick={(e) => handleImageClick(index, e)}
           >
             {imageErrors.has(index) ? (
               // Fallback div when image fails to load
@@ -92,7 +138,7 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
                 alt={image.alt}
                 width={imageSize}
                 height={imageSize}
-                className="object-cover rounded-lg"
+                className="object-cover object-top rounded-lg"
                 style={{ width: "100%", height: "100%" }}
                 onError={() => handleImageError(index)}
                 priority={index < 5} // Prioritize first 5 images for faster loading
