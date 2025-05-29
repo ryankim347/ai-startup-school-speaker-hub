@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: "Explore resources, talks, and insights from leading AI experts and entrepreneurs.",
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 
@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
