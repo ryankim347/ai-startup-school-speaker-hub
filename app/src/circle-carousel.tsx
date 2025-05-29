@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 interface CarouselImage {
@@ -35,6 +35,8 @@ interface CircularCarouselProps {
     speaker: Speaker,
     imagePosition: { x: number; y: number }
   ) => void;
+  hasInitialAnimationRun?: boolean;
+  onInitialAnimationComplete?: () => void;
 }
 
 const CircularCarousel: React.FC<CircularCarouselProps> = ({
@@ -45,9 +47,38 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
   imageSize = 120,
   speakers = [],
   onImageClick,
+  hasInitialAnimationRun = false,
+  onInitialAnimationComplete,
 }) => {
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+  const [hasLoaded, setHasLoaded] = useState(hasInitialAnimationRun);
+  const [isSpinning, setIsSpinning] = useState(hasInitialAnimationRun);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (hasInitialAnimationRun) {
+      // If animation has already run, set everything to final state immediately
+      setHasLoaded(true);
+      setIsSpinning(true);
+      return;
+    }
+
+    // Trigger the animation after a short delay to ensure smooth rendering
+    const timer = setTimeout(() => {
+      setHasLoaded(true);
+    }, 100);
+
+    // Start the continuous spinning after the initial animation completes
+    const spinTimer = setTimeout(() => {
+      setIsSpinning(true);
+      onInitialAnimationComplete?.();
+    }, 1600); // 100ms initial delay + 1500ms initial animation + 100ms buffer
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(spinTimer);
+    };
+  }, [hasInitialAnimationRun, onInitialAnimationComplete]);
 
   const handleImageError = (index: number) => {
     setImageErrors((prev) => new Set(prev).add(index));
@@ -110,11 +141,15 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
 
       {/* Circular Image Arrangement */}
       <div
-        className="absolute inset-0 flex items-center justify-center"
+        className={`absolute inset-0 flex items-center justify-center transition-transform duration-1500 ease-in-out ${
+          hasLoaded ? "rotate-0" : "-rotate-90"
+        } ${isSpinning ? "animate-spin-slow" : ""}`}
         style={{
           width: `${(radius + imageSize) * 2}px`,
           height: `${(radius + imageSize) * 2}px`,
           margin: "auto",
+          opacity: hasLoaded ? 1 : 0,
+          transform: hasLoaded ? "rotate(0deg)" : "rotate(-90deg)",
         }}
       >
         {images.map((image, index) => (
@@ -147,6 +182,22 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
           </div>
         ))}
       </div>
+
+      {/* CSS for slow spinning animation */}
+      <style jsx>{`
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 150s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };
