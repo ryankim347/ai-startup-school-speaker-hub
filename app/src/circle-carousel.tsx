@@ -120,7 +120,7 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
       ref={containerRef}
     >
       {/* Central Content */}
-      <div className="fixed top-1/2 -translate-y-1/2 right-6 w-[45%] md:relative md:w-auto md:right-auto md:top-auto md:transform-none md:flex md:items-center md:justify-center md:mt-18 z-10 max-w-md px-0 md:px-6">
+      <div className="fixed top-1/2 -translate-y-1/2 right-6 w-[45%] md:relative md:w-auto md:right-auto md:top-auto md:transform-none md:flex md:items-center md:justify-center md:mt-19 z-10 max-w-md px-0 md:px-6">
         <div className="text-right md:text-center">
           <h1 className="text-2xl md:text-4xl font-light text-gray-800 mb-4 leading-relaxed">
             {title}
