@@ -290,8 +290,8 @@ export default function Home() {
       {/* Header */}
       <CircularCarousel
         images={carouselImages}
-        title="The future is built on Artificial Intelligence."
-        subtitle="SCROLL TO EXPLORE"
+        title="YC Startup School"
+        subtitle="CLICK TO EXPLORE SPEAKERS"
         radius={320}
         imageSize={100}
       />

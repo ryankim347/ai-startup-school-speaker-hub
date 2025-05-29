@@ -18,8 +18,8 @@ interface CircularCarouselProps {
 
 const CircularCarousel: React.FC<CircularCarouselProps> = ({
   images,
-  title = "The future is built on Artificial Intelligence.",
-  subtitle = "SCROLL TO EXPLORE",
+  title = "YC Startup School Speakers",
+  subtitle = "CLICK TO EXPLORE",
   radius = 300,
   imageSize = 120,
 }) => {
