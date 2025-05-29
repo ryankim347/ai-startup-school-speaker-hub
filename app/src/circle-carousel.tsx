@@ -120,13 +120,15 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
       ref={containerRef}
     >
       {/* Central Content */}
-      <div className="text-right md:text-center z-10 max-w-md px-6 mr-4 md:mr-0">
-        <h1 className="text-2xl md:text-4xl font-light text-gray-800 mb-4 leading-relaxed">
-          {title}
-        </h1>
-        <p className="text-sm md:text-base text-gray-500 tracking-wider uppercase">
-          {subtitle}
-        </p>
+      <div className="fixed top-1/2 -translate-y-1/2 right-6 w-[45%] md:relative md:w-auto md:right-auto md:top-auto md:transform-none md:flex md:items-center md:justify-center md:mt-18 z-10 max-w-md px-0 md:px-6">
+        <div className="text-right md:text-center">
+          <h1 className="text-2xl md:text-4xl font-light text-gray-800 mb-4 leading-relaxed">
+            {title}
+          </h1>
+          <p className="text-sm md:text-base text-gray-500 tracking-wider uppercase">
+            {subtitle}
+          </p>
+        </div>
       </div>
 
       {/* Circular Image Arrangement */}
@@ -185,7 +187,13 @@ const CircularCarousel: React.FC<CircularCarouselProps> = ({
         }
 
         .animate-spin-slow {
-          animation: spin-slow 150s linear infinite;
+          animation: spin-slow 45s linear infinite;
+        }
+
+        @media (min-width: 768px) {
+          .animate-spin-slow {
+            animation: spin-slow 150s linear infinite;
+          }
         }
       `}</style>
     </div>
